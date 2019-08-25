@@ -1,4 +1,13 @@
-[toc]
+## 目录
++ [Introduction to data format](https://github.com/bioinfogeeks/Bioinfo-Training/tree/master/Train1-SNP%20Array%20Analysis%20pipeline#introduction-to-data-format)
+  + [关于质控](https://github.com/bioinfogeeks/Bioinfo-Training/tree/master/Train1-SNP%20Array%20Analysis%20pipeline#%E5%85%B3%E4%BA%8E%E8%B4%A8%E6%8E%A7)
+  + [数据格式转换](https://github.com/bioinfogeeks/Bioinfo-Training/tree/master/Train1-SNP%20Array%20Analysis%20pipeline#%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2)
++ [Step1.trios phasing](https://github.com/bioinfogeeks/Bioinfo-Training/tree/master/Train1-SNP%20Array%20Analysis%20pipeline#step1trios-phasing)
++ [Step2.缺失基因型推断（missing genotype imputation）](https://github.com/bioinfogeeks/Bioinfo-Training/tree/master/Train1-SNP%20Array%20Analysis%20pipeline#step2%E7%BC%BA%E5%A4%B1%E5%9F%BA%E5%9B%A0%E5%9E%8B%E6%8E%A8%E6%96%ADmissing-genotype-imputation)
++ [Step3.风险评分(Genetic risk score)](https://github.com/bioinfogeeks/Bioinfo-Training/tree/master/Train1-SNP%20Array%20Analysis%20pipeline#step3%E9%A3%8E%E9%99%A9%E8%AF%84%E5%88%86genetic-risk-score)
++ [Step4.祖源分析(Ancestry)](https://github.com/bioinfogeeks/Bioinfo-Training/tree/master/Train1-SNP%20Array%20Analysis%20pipeline#step4%E7%A5%96%E6%BA%90%E5%88%86%E6%9E%90ancestry)
+  + [radmixture使用指南](https://github.com/bioinfogeeks/Bioinfo-Training/tree/master/Train1-SNP%20Array%20Analysis%20pipeline#1radmixture%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97)
+  + [祖源计算原理](https://github.com/bioinfogeeks/Bioinfo-Training/tree/master/Train1-SNP%20Array%20Analysis%20pipeline#2%E7%A5%96%E6%BA%90%E8%AE%A1%E7%AE%97%E5%8E%9F%E7%90%86)
 
 ##  Introduction to data format
 果壳那边可以直接出 **`.PED`** 和 **`.MAP`** 格式的数据，所以对于我们下游处理来说更加方便了
