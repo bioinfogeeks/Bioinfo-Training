@@ -2,7 +2,7 @@
 
 ##  Introduction to data format
 果壳那边可以直接出 **`.PED`** 和 **`.MAP`** 格式的数据，所以对于我们下游处理来说更加方便了
-![图]()
+![图](https://github.com/bioinfogeeks/Bioinfo-Training/blob/master/Train1-SNP%20Array%20Analysis%20pipeline/pic/4.png)
 
 #### 关于质控
 从果壳拿到的数据已经经过了质控，因此我们直接进行下一步的基因型数据填充即可
@@ -38,7 +38,7 @@ trios phasing分为两类：有家系数据和没有家系数据
 -phase \
 -m data/test.map \
 -g data/test.gen \
--int 20.4e6 20.5e6 \
+-int 0 50000 \
 -Ne 20000 \
 -o data/test.phasing.impute2
 ```
@@ -91,6 +91,7 @@ PRS(polygenic risk score)是一个比较大的概念，称作多基因风险评�
 以我们运动基因<肩袖损伤可能性>这个项目为例，它给出的文献是 Genome-wide association study identifies a locus associated with rotator cuff injury
 假设现在有一个人，它的这个位点的携带基因型是AA，我们要计算他的风险概率，(其实就可以视作我们已有OR值后，利用逻辑回归的公式反推概率P)
 + **`第一步，设定计算标准：`**
+
 含有风险等位基因纯合子（有两个高风险等位基因）——记2分
 
 杂合子——记1分
@@ -101,10 +102,13 @@ PRS(polygenic risk score)是一个比较大的概念，称作多基因风险评�
 + **`第二步，查看GWAS文献中给出的统计系数（OR值）`**
 **文献给出了风险snp和对应的OR值，风险碱基是A**
 
+![文献](https://github.com/bioinfogeeks/Bioinfo-Training/blob/master/Train1-SNP%20Array%20Analysis%20pipeline/pic/1.png)
 
 + **`第三步，计算GRS`**
   + 因为这个人携带2个风险碱基(AA)，因此 GRS=ΣβiSi=1.25*2=2.5
   + 逻辑回归预测公式： p=1/(1+e^(-ΣβiSi))， 大写的P代表pheno, 小写的p代表概率
+
+![公式](https://github.com/bioinfogeeks/Bioinfo-Training/blob/master/Train1-SNP%20Array%20Analysis%20pipeline/pic/2.jpg)
 
   + 计算风险概率 = 1/(1+2.71828^(-2.5)) = 0.9241417 ≈ 92.4%
   + **注意** GWAS研究中，可能还给了性别，年龄等协变量的OR值，我们在计算GRS时，如果可以获得个体样本的年龄，性别信息，也可以纳入模型一起计算。为简化计算，此处我们没有纳入常量B0。
