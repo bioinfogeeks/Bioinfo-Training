@@ -11,7 +11,7 @@
 + 果壳提供.PED/ .MAP 格式的文件， （如果是VCF，需要用VCF tools转换成 plink的输入数据格式），所以现在直接使用 **`Gtools`** 将Plink格式的文件转为 **`IMPUTES2`** 的输入文件
 
 ```shell
-gtool -P --ped test.ped --map test.map --og out.gen --os out.sample
+gtool -P --ped test.ped --map test.map --og test.gen --os test.sample
 ```
 
 ---
