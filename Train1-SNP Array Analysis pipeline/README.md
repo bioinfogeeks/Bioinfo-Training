@@ -130,3 +130,71 @@ PRS(polygenic risk score)是一个比较大的概念，称作多基因风险评�
 + **`WeGene`** 公司使用的是基于美国加州大学洛杉矶分校Admixture工具改进的算法来完成的祖源相似性比较
 + 我们目前暂时使用R包radmixture来做祖源分析，但是我们使用的是公共参考数据库(上海马普所的一个老师好像建立了一个汉族人群队列的数据库，之后可以探究使用)，因此准确性有待提高
 
+#### 1.radmixture使用指南
+
+**`安装radmixture包`**
+```r
+## 可以通过github安装
+devtools::install_github("wegene-llc/radmixture")
+## 也可以通过CRAN安装
+install.packages("radmixture")
+```
+**`输入数据格式`**
+输入radmixture包进行祖源分析的数据要满足一定的格式，类似于这种：
+
++ 第一列是rsid号
++ 第二列是chr号（染色体）
++ 第三列是snp位点的position
++ 第四列是genotype(基因型)
+
+**`使用公共数据集，计算祖源相似性`**
++ 第一步，读入snp芯片数据
+```r
+library(radmixture)
+genotype <- read.table(file = '/path/to/file')
+# genotype <- read.csv(file = 'path/to/file')
+```
++ 第二步，下载公共数据集，并载入数据
+```r
+## 首先下载数据集
+download.file(url = 'https://github.com/wegene-llc/radmixture/raw/master/data/globe4.alleles.RData', destfile = '/path/to/globe4.alleles.RData')
+download.file(url = 'https://github.com/wegene-llc/radmixture/raw/master/data/globe4.4.F.RData', destfile = '/path/to/globe4.4.F.RData')
+## 加载数据集
+load('/path/to/globe4.alleles.RData')
+load('/path/to/globe4.4.F.RData')
+```
++ 第三步，使用`tfrdpub()`函数将我们的raw data转变为radmixture包可以读懂的数据格式
+使用`fFixQN()`计算种族分层结果
+
+```r
+# Use K4
+res <- tfrdpub(genotype, 4, globe4.alleles, globe4.4.F)
+ances <- fFixQN(res$g, res$q, res$f, tol = 1e-4, method = "BR", pubdata = "K4")
+## 取出计算结果
+ances$q
+##        European   Asian African Amerindian
+## result    1e-05 0.94662   1e-05    0.05336
+
+# Use K7b
+res <- tfrdpub(genotype, 7, K7b.alleles, K7b.7.F)
+ances <- fFixQN(res$g, res$q, res$f, tol = 1e-4, method = "BR", pubdata = "K7b")
+```
+用的是果壳芯片东亚人种的测试数据，可以看到结果中94%都是亚洲人血统，说明还是比较准
+
+#### 2.祖源计算原理
++ 祖源计算，简单而言就是进行群体分层，探寻某个人究竟属于哪个人种（举个不恰当的例子，可以参考动物育种里面的品种分类，例如鉴定某某牛，是荷兰牛，还是美国进口牛的品种）。
++ 它的原理是，每个杂交后代（父代是不同的品种），他们的基因组的一些基因型频率和父代的基因型频率之间具有一定的相关性。所以我们可以通过一些统计方法，计算某个品种父代对子代个体基因组的遗传贡献率。
++ 目前使用snp进行祖源分析预测主要有两类方法：
+  + 基于admixture的方法（多群体基因频率混合分布）
+  + 线性回归分析的方法
++ 常用的计算软件有：
+  + 估计亲缘关系： ADMIXTURE,  ANCESTRY
+   + 估计群体结构：STRUCTURE， MENDEL和EigenStrait
+   + 使用线性回归方法预测： R语言
+
+
+
+
+
+
+
